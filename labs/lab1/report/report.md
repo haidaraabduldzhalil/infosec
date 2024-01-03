@@ -1,27 +1,26 @@
 ---
-## Front matter
-title: "Шаблон отчёта по лабораторной работе"
-subtitle: "Простейший вариант"
-author: "Дмитрий Сергеевич Кулябов"
+# Front matter
+title: "Отчёт по лабораторной работе №1"
+subtitle: "Шифр простой замены"
+author: "Хайдара Абдульджалиль Мухаммад Махди"
 
-## Generic otions
+# Generic otions
 lang: ru-RU
 toc-title: "Содержание"
 
-## Bibliography
+# Bibliography
 bibliography: bib/cite.bib
 csl: pandoc/csl/gost-r-7-0-5-2008-numeric.csl
 
-## Pdf output format
+# Pdf output format
 toc: true # Table of contents
-toc-depth: 2
+toc_depth: 2
 lof: true # List of figures
-lot: true # List of tables
 fontsize: 12pt
 linestretch: 1.5
 papersize: a4
 documentclass: scrreprt
-## I18n polyglossia
+## I18n
 polyglossia-lang:
   name: russian
   options:
@@ -29,10 +28,7 @@ polyglossia-lang:
 	- babelshorthands=true
 polyglossia-otherlangs:
   name: english
-## I18n babel
-babel-lang: russian
-babel-otherlangs: english
-## Fonts
+### Fonts
 mainfont: PT Serif
 romanfont: PT Serif
 sansfont: PT Sans
@@ -51,69 +47,175 @@ biblatexoptions:
   - language=auto
   - autolang=other*
   - citestyle=gost-numeric
-## Pandoc-crossref LaTeX customization
-figureTitle: "Рис."
-tableTitle: "Таблица"
-listingTitle: "Листинг"
-lofTitle: "Список иллюстраций"
-lotTitle: "Список таблиц"
-lolTitle: "Листинги"
 ## Misc options
 indent: true
 header-includes:
-  - \usepackage{indentfirst}
+  - \linepenalty=10 # the penalty added to the badness of each line within a paragraph (no associated penalty node) Increasing the value makes tex try to have fewer lines in the paragraph.
+  - \interlinepenalty=0 # value of the penalty (node) added after each line of a paragraph.
+  - \hyphenpenalty=50 # the penalty for line breaking at an automatically inserted hyphen
+  - \exhyphenpenalty=50 # the penalty for line breaking at an explicit hyphen
+  - \binoppenalty=700 # the penalty for breaking a line at a binary operator
+  - \relpenalty=500 # the penalty for breaking a line at a relation
+  - \clubpenalty=150 # extra penalty for breaking after first line of a paragraph
+  - \widowpenalty=150 # extra penalty for breaking before last line of a paragraph
+  - \displaywidowpenalty=50 # extra penalty for breaking before last line before a display math
+  - \brokenpenalty=100 # extra penalty for page breaking after a hyphenated line
+  - \predisplaypenalty=10000 # penalty for breaking before a display
+  - \postdisplaypenalty=0 # penalty for breaking after a display
+  - \floatingpenalty = 20000 # penalty for splitting an insertion (can only be split footnote in standard LaTeX)
+  - \raggedbottom # or \flushbottom
   - \usepackage{float} # keep figures where there are in the text
   - \floatplacement{figure}{H} # keep figures where there are in the text
 ---
 
 # Цель работы
 
-Здесь приводится формулировка цели лабораторной работы. Формулировки
-цели для каждой лабораторной работы приведены в методических
-указаниях.
+Изучение алгоритмов шифрования Цезаря и Атбаш
 
-Цель данного шаблона --- максимально упростить подготовку отчётов по
-лабораторным работам.  Модифицируя данный шаблон, студенты смогут без
-труда подготовить отчёт по лабораторным работам, а также познакомиться
-с основными возможностями разметки Markdown.
+# Теоретические сведения
 
-# Задание
+## Шифр Цезаря
 
-Здесь приводится описание задания в соответствии с рекомендациями
-методического пособия и выданным вариантом.
+Шифр Цезаря, также известный, как шифр сдвига, код Цезаря или сдвиг Цезаря — один из самых простых и наиболее широко известных методов шифрования.
 
-# Теоретическое введение
+Шифр Цезаря — это вид шифра подстановки, в котором каждый символ в открытом тексте заменяется символом находящимся на некотором постоянном числе позиций левее или правее него в алфавите. Например, в шифре со сдвигом 3 А была бы заменена на Г, Б станет Д, и так далее.
 
-Здесь описываются теоретические аспекты, связанные с выполнением работы.
+Шифр назван в честь римского императора Гая Юлия Цезаря, использовавшего его для секретной переписки со своими генералами.
 
-Например, в табл. @tbl:std-dir приведено краткое описание стандартных каталогов Unix.
+Шаг шифрования, выполняемый шифром Цезаря, часто включается как часть более сложных схем, таких как шифр Виженера, и все ещё имеет современное приложение в системе ROT13. Как и все моноалфавитные шифры, шифр Цезаря легко взламывается и не имеет практически никакого применения на практике.
 
-: Описание некоторых каталогов файловой системы GNU Linux {#tbl:std-dir}
+Если сопоставить каждому символу алфавита его порядковый номер (нумеруя с 0), то шифрование и дешифрование можно выразить формулами модульной арифметики:
 
-| Имя каталога | Описание каталога                                                                                                          |
-|--------------|----------------------------------------------------------------------------------------------------------------------------|
-| `/`          | Корневая директория, содержащая всю файловую                                                                               |
-| `/bin `      | Основные системные утилиты, необходимые как в однопользовательском режиме, так и при обычной работе всем пользователям     |
-| `/etc`       | Общесистемные конфигурационные файлы и файлы конфигурации установленных программ                                           |
-| `/home`      | Содержит домашние директории пользователей, которые, в свою очередь, содержат персональные настройки и данные пользователя |
-| `/media`     | Точки монтирования для сменных носителей                                                                                   |
-| `/root`      | Домашняя директория пользователя  `root`                                                                                   |
-| `/tmp`       | Временные файлы                                                                                                            |
-| `/usr`       | Вторичная иерархия для данных пользователя                                                                                 |
+```
+y = (x + k) mod n
+x = (y - k + n) mod n
+```
 
-Более подробно об Unix см. в [@gnu-doc:bash;@newham:2005:bash;@zarrelli:2017:bash;@robbins:2013:bash;@tannenbaum:arch-pc:ru;@tannenbaum:modern-os:ru].
+где
+*x — символ открытого текста,
+*y — символ шифрованного текста
+*n — мощность алфавита
+*k — ключ.
 
-# Выполнение лабораторной работы
+С точки зрения математики шифр Цезаря является частным случаем аффинного шифра.
 
-Описываются проведённые действия, в качестве иллюстрации даётся ссылка на иллюстрацию (рис. @fig:001).
+## Шифр Атбаш
 
-![Название рисунка](image/placeimg_800_600_tech.jpg){#fig:001 width=70%}
+Атбаш — простой шифр подстановки, изначально придуманный для иврита. Правило шифрования состоит в замене i-й буквы алфавита буквой с номером n − i + 1, где n — число букв в алфавите.
+
+# Выполнение работы
+
+## Реализация шифра Цезаря на языке Python
+
+Блок шифрования
+
+```
+# функция шифрования по алгоритму цезаря
+def tsesar():
+    # для работы необходим алфавит, его мы и объявили
+    # алфавит можно расширить и до русских букв
+    letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    # это шаг в шифровке. ЕГо можно и даже нужно менять. 
+	# Типо на сколько шагов сделать ход по алфавиту.
+    step = 5
+    # строка для ввода текста. Вводить надо исключительно те символы 
+	# что есть в алвафите, который мы сверху написали,
+    # иначе будут ошибки.
+    text = input("Цезарь - шифрование :)")
+    # переменная для записи результата
+    result = ''
+    # сам процесс шифрования начинается уже тут
+    for i in text:
+        ind = letters.find(i)    
+		# Вычисляем места символов в списке
+        newind = ind + step    
+		# Сдвигаем символы на указанный в переменной step шаг
+        if i in letters:
+            result += letters[newind]  
+			# Задаем значения в итог
+        else:
+            result += i
+    print(result)
+```
+
+Блок дешифровки
+
+```
+# процесс дешифровки уже должен быть ясен
+# вместо добавления шага, надо, наоборот же, вычитать, 
+# чтоб из зашифр сообщения получить открытый текст
+# по сути код такой же, лишь маленькое отличие: вместо + -
+def tsesar_deshifr():
+    letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    smeshenie = 5
+    text = input("Цезарь - дешифровка")
+    result = ''
+
+    for i in text:
+        ind = letters.find(i)
+        newind = ind - smeshenie
+        if i in letters:
+            result += letters[newind]
+        else:
+            result += i
+    print(result)
+```
+
+## Реализация шифра Атбаш на языке Python
+
+Блок шифрования
+
+```
+# шифр атбаша заключается тупо в том, что меняются буквы 
+# из обычного алфавита на буквы из алфавита-наоборот
+#вместо А идет Z и тп
+def atbash():
+    # задаем алфавит
+    letters = [chr(x) for x in range(65, 91)]
+    # алфавит-наоборот
+    letters_r = [x for x in letters]
+    letters_r.reverse()
+
+    text = input("Атбаш - шифрование")
+    result = ""
+    # тут для перебираются буквы из исходного текста
+    for i in text:
+        # перебираются индексы и значения из letters
+        for j,l in enumerate(letters):
+            if i == l: # если буквы i и l равны, то
+                result += letters_r[j] 
+		# ставим в результат букву из реверсированного списка с индексом j
+    print(result)
+```
+
+Блок дешифровки
+
+```
+# функция дешифровки практически такая же
+# тут просто местами мы поменяли списки чтоб наоборот дешифровать сообщения
+def atbash_desh():
+    letters = [chr(x) for x in range(65, 91)]
+    letters_r = [x for x in letters]
+    letters_r.reverse()
+
+    text = input("Атбаш - дешивровка")
+    result = ""
+    for i in text:
+        for j, l in enumerate(letters_r):
+            if i == l:
+                result += letters[j]
+    print(result)
+```
+
+## Контрольный пример
+
+![Работа алгоритмов](image/01.png){ #fig:001 width=70% height=70%}
 
 # Выводы
 
-Здесь кратко описываются итоги проделанной работы.
+Изучили алгоритмы шифрования Цезаря и Атбаш.
 
 # Список литературы{.unnumbered}
 
-::: {#refs}
-:::
+1. [Шифр Цезаря](https://habr.com/ru/post/534058/)
+2. [Шифр Атбаш](https://habr.com/ru/post/444176/)
